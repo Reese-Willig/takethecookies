@@ -10,8 +10,9 @@ const ROLE_CODE: Record<Piece['role'], string> = {
 }
 
 export function PieceImage({ piece, className, alt = '' }: { piece: Piece; className?: string; alt?: string }) {
-  // Configured to point directly to your repository folder on GitHub Pages
+  // Hardcoded subfolder location to guarantee the production server matches your repository path
   const src = `/takethecookies/${piece.color === 'white' ? 'w' : 'b'}${ROLE_CODE[piece.role]}.svg`
+
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={src} alt={alt} draggable={false} className={className} />
 }
