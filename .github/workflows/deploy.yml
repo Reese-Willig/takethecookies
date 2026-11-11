@@ -35,10 +35,9 @@ jobs:
       - name: Build Static Site
         env:
           NEXT_TELEMETRY_DISABLED: 1
-        run: |
-          export NEXT_DISABLE_LINT=true
-          export TS_IGNORE_BUILD_ERRORS=true
-          pnpm run build --no-lint
+          NEXT_DISABLE_LINT: true
+          TS_IGNORE_BUILD_ERRORS: true
+        run: pnpm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
