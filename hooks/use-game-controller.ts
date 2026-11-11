@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { buildDrop, buildMove, replay, DRAWBACK_CARDS, type Color, type Role, type Square, type VariantId } from '@/lib/chess/core'
 import { pickMove, type Difficulty } from '@/lib/chess/engine'
 import * as G from '@/lib/chess/game-state'
-import { createBroadcastTransport, type RoomMessage, type RoomTransport } from '@/lib/online/transport'
+import { createOnlineTransport, type RoomMessage, type RoomTransport } from '@/lib/online/transport'
 
 export type GameConfig =
   | { mode: 'local'; variant: VariantId; drawbackLevel?: number; drawbackLevels?: { white: number; black: number } }
@@ -40,12 +40,12 @@ export function useGameController(config: GameConfig) {
     if (next === current) return
     stateRef.current = next
     setState(next)
-    transportRef.current?.send({ type: 'state', state: next })
+    transportRef.current?.send({ type: 'state', state: next, playerId: viewerId })
   }, [])
 
   useEffect(() => {
     if (config.mode !== 'online') return
-    const transport = createBroadcastTransport(config.roomCode)
+    const transport = createOnlineTransport(config.roomCode, config.role, config.role === 'host' ? stateRef.current ?? undefined : undefined)
     transportRef.current = transport
     const me = config.me
 
@@ -64,7 +64,7 @@ export function useGameController(config: GameConfig) {
       }
       if (msg.type === 'state') {
         const seated = msg.state.players.white?.id === me.id || msg.state.players.black?.id === me.id
-        if (!seated) return
+          if (!seated) return
         if (!current || msg.state.version > current.version) {
           stateRef.current = msg.state
           setState(msg.state)

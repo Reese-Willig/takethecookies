@@ -53,7 +53,7 @@ export function Chessboard({ position, variant, moves, orientation, movableColor
   const [dropRole, setDropRole] = useState<Role | null>(null)
 
   const pieces = useMemo(() => trackPieces(variant, moves, chess960Seed), [variant, moves, chess960Seed])
-  const dests = useMemo(() => (movableColor ? legalDests(position, variant, moves, drawbackCard) : new Map<Square, Square[]>()), [position, movableColor, variant, moves])
+  const dests = useMemo(() => (movableColor ? legalDests(position, variant, moves, drawbackCard) : new Map<Square, Square[]>()), [position, movableColor, variant, moves, drawbackCard])
   const forced = useMemo(() => forcedSquares(position, variant, moves), [position, variant, moves])
   const lastMove = moves.at(-1)
   const checkSquare = checkedKingSquare(position, variant)

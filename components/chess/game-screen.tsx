@@ -122,7 +122,7 @@ function ModeDetails({ config }: { config: GameConfig }) {
   if (config.mode === 'computer')
     body = `Engine strength: ${DIFFICULTIES.find((d) => d.id === config.difficulty)?.label}. Undo takes back your last move and the reply.`
   if (config.mode === 'online')
-    body = 'Rooms sync in real time across browser tabs. Swap the transport for Supabase Realtime or Pusher to go cross-device.'
+    body = 'Rooms sync across computers through the shared online room. Share the room code with your opponent to play.'
   return (
     <div className="rounded-xl border bg-card p-4">
       <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">About this mode</h2>

@@ -322,7 +322,10 @@ export function legalDests(pos: Position, variant: VariantId = 'chess', moves: M
     : undefined
   const hasLegalEp = epTarget !== undefined && [...standardDests.values()].some((tos) => tos.includes(makeSquare(epTarget)))
   const mandatoryEp = variant === 'mandatoryep' && hasLegalEp ? new Set([epTarget]) : undefined
-  const forcedCapture = drawbackCard?.id === 'checkers' && [...standardDests.values()].some((targets) => targets.some((name) => pos.board.get(parseSquare(name))?.color !== pos.turn))
+  const forcedCapture = drawbackCard?.id === 'checkers' && [...standardDests.values()].some((targets) => targets.some((name) => {
+    const target = pos.board.get(parseSquare(name))
+    return target !== undefined && target.color !== pos.turn
+  }))
   for (let source = 0; source < 64; source++) {
     const piece = pos.board.get(source)
     if (!piece || piece.color !== pos.turn) continue
