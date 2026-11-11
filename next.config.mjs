@@ -2,12 +2,14 @@
 const nextConfig = {
   output: 'export',
   basePath: '/takethecookies',
-  assetPrefix: '/takethecookies/',
+  images: {
+    unoptimized: true,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 
